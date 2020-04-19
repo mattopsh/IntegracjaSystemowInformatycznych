@@ -4,7 +4,6 @@ import com.hfad.parkingfinder.auth.model.UserEntity;
 import com.hfad.parkingfinder.auth.model.UserType;
 import lombok.*;
 
-@Setter
 @Getter
 @Builder
 @NoArgsConstructor

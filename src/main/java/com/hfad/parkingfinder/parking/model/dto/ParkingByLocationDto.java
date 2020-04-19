@@ -2,7 +2,6 @@ package com.hfad.parkingfinder.parking.model.dto;
 
 import lombok.*;
 
-@Setter
 @Getter
 @Builder
 @NoArgsConstructor

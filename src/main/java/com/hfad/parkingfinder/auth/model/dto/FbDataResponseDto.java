@@ -3,7 +3,6 @@ package com.hfad.parkingfinder.auth.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-@Setter
 @Getter
 @Builder
 @NoArgsConstructor
