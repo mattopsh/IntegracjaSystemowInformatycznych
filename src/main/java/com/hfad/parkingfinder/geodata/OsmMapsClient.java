@@ -18,6 +18,7 @@ import reactor.core.publisher.Mono;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Primary
 @Component
 public class OsmMapsClient implements MapClient {
 
@@ -45,6 +46,32 @@ public class OsmMapsClient implements MapClient {
                 .bodyToFlux(ParkingOsmDto.class)
                 .next()
                 .map(ParkingOsmDto::getParkingNodeId);
+    }
+
+    @Override
+    public Flux<ParkingOsmDto> findParkingByNameOrAddress(double attitude, double longitude, String parkingNameOrAddress) {
+        return nominatimClient.get()
+                .uri(uriBuilder -> {
+                    if (parkingNameOrAddress == null || parkingNameOrAddress.isEmpty()) {
+                        return uriBuilder
+                                .queryParam("q", "parking+near+" + attitude + "+" + longitude)
+                                .queryParam("format", "json")
+                                .queryParam("extratags", 1)
+                                .queryParam("addressdetails", 1)
+                                .queryParam("limit", PARKING_RESPONSE_MAX_SIZE)
+                                .build();
+                    } else {
+                        return uriBuilder
+                                .queryParam("q", "parking+near+" + parkingNameOrAddress)
+                                .queryParam("format", "json")
+                                .queryParam("extratags", 1)
+                                .queryParam("addressdetails", 1)
+                                .queryParam("limit", PARKING_RESPONSE_MAX_SIZE)
+                                .build();
+                    }
+                })
+                .retrieve()
+                .bodyToFlux(ParkingOsmDto.class);
     }
 
     @Override
