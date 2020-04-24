@@ -1,0 +1,4 @@
+@Component
+public class OsmMapsClient{
+
+}
