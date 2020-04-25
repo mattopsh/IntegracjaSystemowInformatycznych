@@ -32,4 +32,11 @@ public class ReportInconsistencyController {
         val userId = (int) jwtUtil.getClaims(bearerToken).get(USER_ID);
         return reportService.reportNewParking(userId, newParkingReportDto);
     }
+
+    @RequestMapping(path = "/nonexistent/{parkingNodeId}", method = RequestMethod.POST)
+    public Mono<Void> reportNonexistentParking(@RequestHeader("Authorization") String bearerToken,
+                                               @PathVariable("parkingNodeId") @Min(1) Long parkingNodeId) {
+        val userId = (int) jwtUtil.getClaims(bearerToken).get(USER_ID);
+        return reportService.reportNonexistentParking(userId, parkingNodeId);
+    }
 }
