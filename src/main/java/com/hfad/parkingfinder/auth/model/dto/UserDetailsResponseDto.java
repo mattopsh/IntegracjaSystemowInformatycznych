@@ -9,6 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FbDataResponseDto {
-    private String email;
+public class UserDetailsResponseDto {
+    private String first_name;
+    private String last_name;
+    private PictureDataDto picture;
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,13 +26,13 @@ public class WebSecurity implements Filter {
             val httpServletResponse = (HttpServletResponse) response;
             val bearerToken = httpServletRequest.getHeader("Authorization");
             if (bearerToken == null || bearerToken.isEmpty()) {
-                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid access token");
                 return;
             }
             try {
                 authorizationService.validateUser(bearerToken);
             } catch (UnauthorizedExcpetion unauthorizedExcpetion) {
-                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+                httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid access token");
                 return;
             }
         }
