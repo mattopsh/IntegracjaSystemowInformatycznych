@@ -1,10 +1,12 @@
 package com.hfad.parkingfinder.parking.model;
 
 import lombok.*;
+import javax.persistence.Id;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@Setter
 @Getter
 @Builder
 @NoArgsConstructor

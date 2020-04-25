@@ -7,14 +7,14 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ParkingByLocationDto {
+public class ParkingNearToProviderDto {
     private Long parkingNodeId;
     private String parkingName;
     private String parkingAddress;
     private Double attitude;
     private Double longitude;
-    private Integer distance;
+    private Integer distanceToParking;
+    private Integer distanceToProvider;
     private Integer freeSpaces;
     private Integer dataVeracity;
 }
-
