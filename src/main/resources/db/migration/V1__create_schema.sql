@@ -14,3 +14,26 @@ CREATE TABLE parking_state(
     parking_state INTEGER NOT NULL,
     user_id INTEGER NOT NULL REFERENCES user_entity(user_id)
 );
+
+CREATE TABLE new_parking_report(
+    report_id SERIAL PRIMARY KEY,
+    attitude DOUBLE PRECISION NOT NULL CHECK(attitude >= -90 and attitude <= 90),
+    longitude DOUBLE PRECISION NOT NULL CHECK(attitude >= -180 and attitude <= 180),
+    capacity INTEGER,
+    stay_cost VARCHAR(10),
+    other_information VARCHAR(1000),
+    user_id INTEGER NOT NULL REFERENCES user_entity(user_id)
+);
+
+
+CREATE TABLE nonexistent_parking_report(
+    report_id SERIAL PRIMARY KEY,
+    parking_node_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES user_entity(user_id)
+);
+
+CREATE TABLE other_inconsistency_report(
+    report_id SERIAL PRIMARY KEY,
+    description VARCHAR(1000) NOT NULL,
+    user_id INTEGER NOT NULL REFERENCES user_entity(user_id)
+);
