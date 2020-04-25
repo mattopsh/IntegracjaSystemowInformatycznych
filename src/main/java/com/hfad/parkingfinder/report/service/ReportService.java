@@ -25,6 +25,10 @@ public class ReportService {
     @Autowired
     private NewParkingReportRepository newParkingReportRepository;
     @Autowired
+    private NonexistentParkingReportRepository nonexistentParkingReportRepository;
+    @Autowired
+    private OtherInconsistencyRepository otherInconsistencyRepository;
+    @Autowired
     private ParkingStateRepository parkingStateRepository;
     @Autowired
     private MapClient mapClient;
@@ -42,6 +46,21 @@ public class ReportService {
                 .build()));
     }
 
+    public Mono<Void> reportNonexistentParking(int userId, Long parkingNodeId) {
+        return asyncRunnable(() -> nonexistentParkingReportRepository.save(NonexistentParkingReport.builder()
+                .parkingNodeId(parkingNodeId)
+                .userId(userId)
+                .build()));
+    }
+
+    public Mono<Void> reportOtherInconsistency(int userId, OtherInconsistencyDto otherInconsistencyDto) {
+        return asyncRunnable(() -> otherInconsistencyRepository.save(OtherInconsistencyReport.builder()
+                .description(otherInconsistencyDto.getDescription())
+                .userId(userId)
+                .build()));
+    }
+
+
     public Mono<Void> reportState(int userId, ParkingStateDto parkingStateDto) {
         if (parkingStateDto.getParkingNodeId() != null) {
             return saveParkingState(parkingStateDto.getParkingNodeId(), userId, parkingStateDto);
@@ -51,6 +70,14 @@ public class ReportService {
                     .onErrorMap(err -> err);
         }
 
+    }
+
+    private Mono<Void> saveParkingState(Long parkingNodeId, int userId, ParkingStateDto parkingStateDto) {
+        return asyncRunnable(() -> parkingStateRepository.save(ParkingState.builder()
+                .parkingNodeId(parkingNodeId)
+                .parkingState(parkingStateDto.getParkingState())
+                .userId(userId)
+                .build()));
     }
 
     private Mono<Void> asyncRunnable(Runnable runnable) {

@@ -39,4 +39,11 @@ public class ReportInconsistencyController {
         val userId = (int) jwtUtil.getClaims(bearerToken).get(USER_ID);
         return reportService.reportNonexistentParking(userId, parkingNodeId);
     }
+
+    @RequestMapping(path = "/other", method = RequestMethod.POST)
+    public Mono<Void> reportOtherInconsistency(@RequestHeader("Authorization") String bearerToken,
+                                               @Valid @RequestBody OtherInconsistencyDto otherInconsistencyDto) {
+        val userId = (int) jwtUtil.getClaims(bearerToken).get(USER_ID);
+        return reportService.reportOtherInconsistency(userId, otherInconsistencyDto);
+    }
 }
